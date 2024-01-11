@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     {
         MoveAction.Enable();
         
+
+        //optimizasyon için fps sabitleme
         //QualitySettings.vSyncCount = 0;
         //Application.targetFrameRate = 10;
     }
