@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     //Karakter hareketi için oluþturuldu.
     [SerializeField]
     private InputAction MoveAction;
-  
+    [SerializeField]
+    private Rigidbody2D playerRB2D;
+    private Vector2 playerMove;
 
     //Karaktere ait hareket ivmesi için oluþturuldu.
     private float horizontalValue = 0f;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         MoveAction.Enable();
         
+        playerRB2D = GetComponent<Rigidbody2D>();
 
         //optimizasyon için fps sabitleme
         //QualitySettings.vSyncCount = 0;
@@ -30,16 +33,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CharacterMove();
+        PlayerMove();
     }
 
-
-
-    private void CharacterMove()
+    private void FixedUpdate()
     {
-        Vector2 move = MoveAction.ReadValue<Vector2>();
-        Vector2 characterPosition = (Vector2)transform.position + move * 3.5f *Time.deltaTime; 
-        transform.position = characterPosition;
+        Vector2 characterPosition = (Vector2)playerRB2D.position + playerMove * 3.5f * Time.deltaTime;
 
+        //https://docs.unity3d.com/ScriptReference/Rigidbody2D.MovePosition.html 
+        playerRB2D.MovePosition(characterPosition);
+    }
+
+    private void PlayerMove()
+    {
+        playerMove = MoveAction.ReadValue<Vector2>();
     }
 }
